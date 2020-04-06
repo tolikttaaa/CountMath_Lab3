@@ -46,13 +46,13 @@
                                           <VBox alignment="TOP_CENTER" spacing="10.0">
                                              <children>
                                                 <Label text="Left bound" />
-                                                <TextField />
+                                                <TextField fx:id="neLeftBound" />
                                              </children>
                                           </VBox>
                                           <VBox alignment="TOP_CENTER" spacing="10.0">
                                              <children>
                                                 <Label text="Right bound" />
-                                                <TextField />
+                                                <TextField fx:id="neRightBound" />
                                              </children>
                                           </VBox>
                                        </children>
@@ -62,7 +62,7 @@
                                           <VBox alignment="TOP_CENTER" fillWidth="false" spacing="10.0">
                                              <children>
                                                 <Label text="Accuracy" />
-                                                <TextField />
+                                                <TextField fx:id="neAccuracy" />
                                              </children>
                                           </VBox>
                                           <VBox alignment="CENTER">
