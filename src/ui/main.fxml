@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.chart.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MainController">
+   <children>
+      <HBox spacing="10.0" style="-fx-background-color: E0E0E0;">
+         <children>
+            <Button mnemonicParsing="false" onAction="#setVisibleNEInputPane" text="Solving Nonlinear Equations" />
+            <Button mnemonicParsing="false" onAction="#setVisibleSNEInputPane" text="Solving Systems of Nonlinear Equations" />
+            <Button mnemonicParsing="false" onAction="#setVisibleHelpPane" text="Help" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="895.0" prefWidth="1400.0">
+         <children>
+            <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="775.0" prefWidth="425.0">
+               <children>
+                  <VBox alignment="TOP_CENTER" spacing="50.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+                     <children>
+                        <AnchorPane>
+                           <children>
+                              <VBox fx:id="neInputPane" alignment="TOP_CENTER" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <HBox alignment="TOP_CENTER" spacing="30.0">
+                                       <children>
+                                          <VBox alignment="TOP_CENTER" spacing="10.0">
+                                             <children>
+                                                <Label text="Method" />
+                                                <ChoiceBox fx:id="neMethod" prefWidth="150.0" />
+                                             </children>
+                                          </VBox>
+                                          <VBox alignment="TOP_CENTER" fillWidth="false" spacing="10.0">
+                                             <children>
+                                                <Label text="Function" />
+                                                <ChoiceBox fx:id="neFunction" prefWidth="150.0" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="TOP_CENTER" spacing="30.0">
+                                       <children>
+                                          <VBox alignment="TOP_CENTER" spacing="10.0">
+                                             <children>
+                                                <Label text="Left bound" />
+                                                <TextField />
+                                             </children>
+                                          </VBox>
+                                          <VBox alignment="TOP_CENTER" spacing="10.0">
+                                             <children>
+                                                <Label text="Right bound" />
+                                                <TextField />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" spacing="30.0">
+                                       <children>
+                                          <VBox alignment="TOP_CENTER" fillWidth="false" spacing="10.0">
+                                             <children>
+                                                <Label text="Accuracy" />
+                                                <TextField />
+                                             </children>
+                                          </VBox>
+                                          <VBox alignment="CENTER">
+                                             <children>
+                                                <Button alignment="CENTER" mnemonicParsing="false" onAction="#neCalculate" prefWidth="149.0" text="Calculate" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="sneInputPane" alignment="TOP_CENTER" layoutX="-1.0" spacing="30.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <HBox alignment="TOP_CENTER" spacing="30.0">
+                                       <children>
+                                          <VBox alignment="TOP_CENTER" spacing="10.0">
+                                             <children>
+                                                <Label text="Method" />
+                                                <ChoiceBox fx:id="sneMethod" prefWidth="150.0" />
+                                             </children>
+                                          </VBox>
+                                          <VBox alignment="TOP_CENTER" fillWidth="false" spacing="10.0">
+                                             <children>
+                                                <Label text="Function" />
+                                                <ChoiceBox fx:id="sneFunction" prefWidth="150.0" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="TOP_CENTER" spacing="30.0">
+                                       <children>
+                                          <VBox alignment="TOP_CENTER" spacing="10.0">
+                                             <children>
+                                                <Label text="Left bound" />
+                                                <TextField />
+                                             </children>
+                                          </VBox>
+                                          <VBox alignment="TOP_CENTER" spacing="10.0">
+                                             <children>
+                                                <Label text="Right bound" />
+                                                <TextField />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" spacing="30.0">
+                                       <children>
+                                          <VBox alignment="TOP_CENTER" fillWidth="false" spacing="10.0">
+                                             <children>
+                                                <Label text="Accuracy" />
+                                                <TextField />
+                                             </children>
+                                          </VBox>
+                                          <VBox alignment="CENTER">
+                                             <children>
+                                                <Button alignment="CENTER" mnemonicParsing="false" onAction="#sneCalculate" prefWidth="149.0" text="Calculate" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <Label fx:id="helpPane" alignment="TOP_LEFT" cacheShape="false" centerShape="false" scaleShape="false" text="The purpose of this application is to solve selective nonlinear equations and systems of nonlinear equations by various ways.&#10;Implemented by Anatoliy Anischenko&#10;" textAlignment="JUSTIFY" visible="false" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane>
+                           <children>
+                              <Label fx:id="error" alignment="TOP_LEFT" maxHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" text="Error&#10;Error&#10;Error&#10;" textFill="RED" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <font>
+                                    <Font name="Consolas Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane>
+                           <children>
+                              <Label fx:id="result" alignment="TOP_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="300.0" text="Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <font>
+                                    <Font name="Consolas" size="12.0" />
+                                 </font></Label>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </VBox>
+               </children></AnchorPane>
+            <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="775.0" prefWidth="775.0">
+               <children>
+                  <LineChart fx:id="chart" alternativeRowFillVisible="false" layoutY="10.0" legendVisible="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="755.0" prefWidth="755.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
+                    <xAxis>
+                      <NumberAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis side="LEFT" />
+                    </yAxis>
+                  </LineChart>
+               </children>
+            </AnchorPane>
+         </children>
+      </HBox>
+   </children>
+</VBox>

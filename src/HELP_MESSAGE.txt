@@ -1,0 +1,2 @@
+The purpose of this application is to solve selective nonlinear equations and systems of nonlinear equations by various ways.
+Implemented by Anatoliy Anischenko
