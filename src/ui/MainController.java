@@ -1,8 +1,10 @@
 package ui;
 
+import back.Bounds;
 import back.Function;
 import back.NonlinearEquation;
 import back.solution.NonlinearEquationSolutionType;
+import back.solution.NonlinearEquationSolver;
 import back.solution.SystemOfNonlinearEquationsSolutionType;
 
 import javafx.collections.FXCollections;
@@ -10,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -20,6 +23,7 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
     private static final double EPS = 1e-9;
+    private static final NonlinearEquationSolver neSolver = new NonlinearEquationSolver();
 
     @FXML
     private Label helpPane;
@@ -35,6 +39,9 @@ public class MainController implements Initializable {
 
     @FXML
     private Label error;
+
+    @FXML
+    private NumberAxis xAxis;
 
     @FXML
     private LineChart<Double, Double> chart;
@@ -56,7 +63,7 @@ public class MainController implements Initializable {
         helpPane.setVisible(false);
         neInputPane.setVisible(true);
         sneInputPane.setVisible(false);
-        error.setVisible(false);
+        error.setVisible(true);
         result.setVisible(true);
 
         neMethod.setValue(NonlinearEquationSolutionType.BISECTION_METHOD);
@@ -85,6 +92,8 @@ public class MainController implements Initializable {
         error.setText("");
         result.setText("");
 
+        //TODO: sne
+
         updateSNEChart();
     }
 
@@ -103,20 +112,41 @@ public class MainController implements Initializable {
     @FXML
     private TextField neLeftBound;
 
+    private double getLeftBound() {
+        return Double.parseDouble(neLeftBound.getText());
+    }
+
     @FXML
     private TextField neRightBound;
+
+    private double getRightBound() {
+        return Double.parseDouble(neRightBound.getText());
+    }
 
     @FXML
     private TextField neAccuracy;
 
     @FXML
     private void neCalculate() {
-        //TODO
+        try {
+            result.setText("Result is: " + neSolver.solveNonlinearEquation(
+                    neFunction.getValue(),
+                    new Bounds(
+                            getLeftBound(),
+                            getRightBound()
+                    ),
+                    Double.parseDouble(neAccuracy.getText()),
+                    neMethod.getValue()));
+            //FIXME: NEResult
+        } catch (Exception e) {
+            result.setText("");
+            error.setText(e.getMessage());
+        }
     }
 
     @FXML
     private void sneCalculate() {
-        //TODO
+        //TODO: sne
     }
 
     @FXML
@@ -125,9 +155,15 @@ public class MainController implements Initializable {
             mathGraph.clear();
             mathGraph.plotLine(
                     neFunction.getValue(),
-                    Double.parseDouble(neLeftBound.getText()),
-                    Double.parseDouble(neRightBound.getText())
+                    getLeftBound(),
+                    getRightBound()
             );
+            xAxis.setAutoRanging(false);
+            double step = (getRightBound() - getLeftBound()) / 10;
+            xAxis.setLowerBound(getLeftBound() - step);
+            xAxis.setUpperBound(getRightBound() + step);
+            xAxis.setTickUnit(step);
+
         } catch (Exception e) {
             error.setText(e.getMessage());
         }
@@ -135,7 +171,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void updateSNEChart() {
-        //TODO
+        //TODO: sne
     }
 
     private void neInit() {
@@ -147,6 +183,12 @@ public class MainController implements Initializable {
                 NonlinearEquationSolutionType.ITERATIVE_METHOD
         );
         neMethod.setItems(neMethods);
+        neMethod.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    error.setText("");
+                    result.setText("");
+                }
+        );
 
         ObservableList<Function> neFunctions = FXCollections.observableArrayList(
                 NonlinearEquation.FUNCTION_1,
@@ -161,6 +203,10 @@ public class MainController implements Initializable {
                     neLeftBound.setText("-10.0");
                     neRightBound.setText("10.0");
                     neAccuracy.setText("0.01");
+
+                    error.setText("");
+                    result.setText("");
+
                     updateNEChart();
                 });
 
@@ -169,27 +215,52 @@ public class MainController implements Initializable {
         neAccuracy.setText("0.01");
 
         neLeftBound.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("-?\\d{0,7}([.]\\d{0,4})?")
-                    || Double.parseDouble(newValue) > Double.parseDouble(neRightBound.getText()) - EPS) {
+            if (!newValue.matches("-?\\d{0,7}([.]\\d{0,4})?")) {
                 neLeftBound.setText(oldValue);
             } else {
-                updateNEChart();
+                try {
+                    if (Double.parseDouble(newValue) > getRightBound() - EPS) {
+                        neLeftBound.setText(oldValue);
+                    } else {
+                        error.setText("");
+                        result.setText("");
+                        updateNEChart();
+                    }
+                } catch (NumberFormatException ignored) {
+                }
             }
         });
         neRightBound.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("-?\\d{0,7}([.]\\d{0,4})?")
-                    || Double.parseDouble(newValue) < Double.parseDouble(neLeftBound.getText()) + EPS) {
-                neLeftBound.setText(oldValue);
+            if (!newValue.matches("-?\\d{0,3}([.]\\d{0,4})?")) {
+                neRightBound.setText(oldValue);
             } else {
-                updateNEChart();
+                try {
+                    if (Double.parseDouble(newValue) < getLeftBound() + EPS) {
+                        neLeftBound.setText(oldValue);
+                    } else {
+                        error.setText("");
+                        result.setText("");
+                        updateNEChart();
+                    }
+                } catch (NumberFormatException ignored) {
+                }
             }
         });
         neAccuracy.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d{0,3}([.]\\d{0,4})?")
-                    || Double.parseDouble(newValue) < 0.00001d) {
+            if (!newValue.matches("-?\\d{0,3}([.]\\d{0,5})?")) {
                 neAccuracy.setText(oldValue);
+            } else {
+                try {
+                    if (Double.parseDouble(newValue) < 0.00001d) {
+                        neLeftBound.setText(oldValue);
+                    } else {
+                        error.setText("");
+                        result.setText("");
+                    }
+                } catch (NumberFormatException ignored) {
+                }
             }
-        });;
+        });
     }
 
     private void sneInit() {
@@ -200,11 +271,12 @@ public class MainController implements Initializable {
         );
         sneMethod.setItems(sneMethods);
 
-        //TODO: clear sne
+        //TODO: sne
     }
 
     private void chartInit() {
         mathGraph = new Graph(chart);
+        chart.setCreateSymbols(false);
     }
 
     @Override
