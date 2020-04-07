@@ -10,7 +10,7 @@ import back.exception.NotImplementedMethodException;
 import back.exception.NotImplementedSolutionException;
 
 public class NonlinearEquationSolver {
-    static private final long N_MAX_VALUE = 100_000_000L;
+    static private final long N_MAX_VALUE = 10_000_000L;
     static private final double EPS = 1e-9d;
 
     public NonlinearEquationSolutionResult solveNonlinearEquation(
@@ -83,7 +83,7 @@ public class NonlinearEquationSolver {
             }
         }
 
-        throw new NoSolutionException("count of iterations more than 100_000_000");
+        throw new NoSolutionException("count of iterations more than 10_000_000");
     }
 
     private NonlinearEquationSolutionResult iterativeMethodSolution(
@@ -99,7 +99,7 @@ public class NonlinearEquationSolver {
             @Override
             public double get(double argument) {
                 try {
-                    return argument + lambda  * function.getDerivative().getValue(argument);
+                    return argument + lambda  * function.getValue(argument);
                 } catch (Exception e) {
                     System.err.println(e.toString());
                     System.err.println("Unavailable code!!!");
@@ -132,29 +132,23 @@ public class NonlinearEquationSolver {
             }
         }
 
-        throw new NoSolutionException("count of iterations more than 100_000_000");
+        prev_x = bounds.getRightBound();
+
+        for (long i = 0; i < N_MAX_VALUE; i++) {
+            x = phi.getValue(prev_x);
+
+            if (Math.abs(x - prev_x) < accuracy || Math.abs(function.getValue(x)) < accuracy) {
+                return new NonlinearEquationSolutionResult(x, function.getValue(x), i);
+            }
+        }
+
+        throw new NoSolutionException("count of iterations more than 10_000_000");
     }
 
     private boolean isSolvable(Function function, Bounds bounds)
             throws NotAllowedScopeException {
         return function.getValue(bounds.getLeftBound())
                 * function.getValue(bounds.getRightBound()) < EPS;
-    }
-
-    public NonlinearEquationSolutionResult solveNonlinearEquation(
-            Function function,
-            Bounds bounds,
-            double accuracy
-    ) throws
-            NotAllowedScopeException,
-            NoSolutionException,
-            NotImplementedMethodException {
-        return solveNonlinearEquation(
-                function,
-                bounds,
-                accuracy,
-                NonlinearEquationSolutionType.BISECTION_METHOD
-        );
     }
 
     private void checkAllowedScope(Function function, Bounds bounds)

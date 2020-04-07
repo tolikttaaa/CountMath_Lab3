@@ -1,6 +1,6 @@
 package back;
 
-public enum NonlinearEquation implements Function {
+public enum Functions implements Function {
     FUNCTION_1 {
         @Override
         public double get(double argument) {

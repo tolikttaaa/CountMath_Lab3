@@ -2,7 +2,7 @@ package ui;
 
 import back.Bounds;
 import back.Function;
-import back.NonlinearEquation;
+import back.Functions;
 import back.solution.NonlinearEquationSolutionType;
 import back.solution.NonlinearEquationSolver;
 import back.solution.SystemOfNonlinearEquationsSolutionType;
@@ -67,7 +67,7 @@ public class MainController implements Initializable {
         result.setVisible(true);
 
         neMethod.setValue(NonlinearEquationSolutionType.BISECTION_METHOD);
-        neFunction.setValue(NonlinearEquation.FUNCTION_1);
+        neFunction.setValue(Functions.FUNCTION_1);
 
         neLeftBound.setText("-10.0");
         neRightBound.setText("10.0");
@@ -191,9 +191,9 @@ public class MainController implements Initializable {
         );
 
         ObservableList<Function> neFunctions = FXCollections.observableArrayList(
-                NonlinearEquation.FUNCTION_1,
-                NonlinearEquation.FUNCTION_2,
-                NonlinearEquation.FUNCTION_3
+                Functions.FUNCTION_1,
+                Functions.FUNCTION_2,
+                Functions.FUNCTION_3
         );
         neFunction.setItems(neFunctions);
         neFunction.getSelectionModel()
