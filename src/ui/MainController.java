@@ -129,15 +129,14 @@ public class MainController implements Initializable {
     @FXML
     private void neCalculate() {
         try {
-            result.setText("Result is: " + neSolver.solveNonlinearEquation(
+            result.setText(neSolver.solveNonlinearEquation(
                     neFunction.getValue(),
                     new Bounds(
                             getLeftBound(),
                             getRightBound()
                     ),
-                    Double.parseDouble(neAccuracy.getText()),
-                    neMethod.getValue()));
-            //FIXME: NEResult
+                    Double.parseDouble(neAccuracy.getText()), neMethod.getValue()
+            ).toString());
         } catch (Exception e) {
             result.setText("");
             error.setText(e.getMessage());
