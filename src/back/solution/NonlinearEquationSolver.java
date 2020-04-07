@@ -4,16 +4,13 @@ import back.Bounds;
 import back.DerivativeFunc;
 import back.Function;
 import back.Interval;
-import back.exception.NoSolutionException;
-import back.exception.NotAllowedScopeException;
-import back.exception.NotImplementedMethodException;
-import back.exception.NotImplementedSolutionException;
+import back.exception.*;
 
 public class NonlinearEquationSolver {
     static private final long N_MAX_VALUE = 10_000_000L;
     static private final double EPS = 1e-9d;
 
-    public NonlinearEquationSolutionResult solveNonlinearEquation(
+    static public NonlinearEquationSolutionResult solveNonlinearEquation(
             Function function,
             Bounds bounds,
             double accuracy,
@@ -21,7 +18,8 @@ public class NonlinearEquationSolver {
     ) throws
             NotAllowedScopeException,
             NoSolutionException,
-            NotImplementedMethodException {
+            NotImplementedMethodException,
+            UnavailableCodeException {
         checkAllowedScope(function, bounds);
 
         if (isSolvable(function, bounds)) {
@@ -56,13 +54,14 @@ public class NonlinearEquationSolver {
         }
     }
 
-    private NonlinearEquationSolutionResult bisectionMethodSolution(
+    static private NonlinearEquationSolutionResult bisectionMethodSolution(
             Function function,
             Bounds bounds,
             double accuracy
     ) throws
             NotAllowedScopeException,
-            NoSolutionException {
+            NoSolutionException,
+            UnavailableCodeException {
         double left = bounds.getLeftBound();
         double right = bounds.getRightBound();
 
@@ -86,38 +85,33 @@ public class NonlinearEquationSolver {
         throw new NoSolutionException("count of iterations more than 10_000_000");
     }
 
-    private NonlinearEquationSolutionResult iterativeMethodSolution(
+    static private NonlinearEquationSolutionResult iterativeMethodSolution(
             Function function,
             Bounds bounds,
             double accuracy
     ) throws
             NotImplementedMethodException,
             NotAllowedScopeException,
-            NoSolutionException {
+            NoSolutionException,
+            UnavailableCodeException {
         double lambda = -1 / function.getDerivative().getMaxValue(bounds);
         Function phi = new DerivativeFunc() {
             @Override
-            public double get(double argument) {
+            public double get(double argument) throws UnavailableCodeException {
                 try {
                     return argument + lambda  * function.getValue(argument);
                 } catch (Exception e) {
-                    System.err.println(e.toString());
-                    System.err.println("Unavailable code!!!");
+                    throw new UnavailableCodeException();
                 }
-
-                return Double.NaN;
             }
 
             @Override
-            public Interval[] getNotAllowedScope() {
+            public Interval[] getNotAllowedScope() throws UnavailableCodeException {
                 try {
                     return function.getDerivative().getNotAllowedScope();
                 } catch (NotImplementedMethodException e) {
-                    System.err.println(e.toString());
-                    System.err.println("Unavailable code!!!");
+                    throw new UnavailableCodeException();
                 }
-
-                return new Interval[0];
             }
         };
 
@@ -145,14 +139,14 @@ public class NonlinearEquationSolver {
         throw new NoSolutionException("count of iterations more than 10_000_000");
     }
 
-    private boolean isSolvable(Function function, Bounds bounds)
-            throws NotAllowedScopeException {
+    static private boolean isSolvable(Function function, Bounds bounds)
+            throws NotAllowedScopeException, UnavailableCodeException {
         return function.getValue(bounds.getLeftBound())
                 * function.getValue(bounds.getRightBound()) < EPS;
     }
 
-    private void checkAllowedScope(Function function, Bounds bounds)
-            throws NotAllowedScopeException {
+    static private void checkAllowedScope(Function function, Bounds bounds)
+            throws NotAllowedScopeException, UnavailableCodeException {
         for (Interval notAllowedScope : function.getNotAllowedScope()) {
             if (notAllowedScope.isPoint()) continue;
             if (notAllowedScope.isIntersect(bounds)) {

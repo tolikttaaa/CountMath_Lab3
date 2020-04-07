@@ -3,7 +3,7 @@ package back.solution.gauss;
 import java.util.ArrayList;
 
 public class SystemOfLinearEquationsSolver {
-    public ArrayList<Double> getSolution(SystemOfLinearEquations<Double, LinearEquation> system) {
+    public static ArrayList<Double> getSolution(SystemOfLinearEquations<Double, LinearEquation> system) {
         for (int i = 0; i < system.size() - 1; i++){
             for (int j = i + 1; j < system.size(); j++){
                 Double k = system.get(j).findCoefficient(system.get(j).at(i), system.get(i).at(i));
@@ -12,7 +12,11 @@ public class SystemOfLinearEquationsSolver {
             }
         }
 
-        ArrayList<Double> res = new ArrayList<>(system.size());
+        ArrayList<Double> res = new ArrayList<>();
+        for (int i = 0; i < system.size(); i++) {
+            res.add(0d);
+        }
+
         for (int i = system.size() - 1; i >= 0; i--) {
             Double sum = 0.0d;
             int j = system.size() - 1;

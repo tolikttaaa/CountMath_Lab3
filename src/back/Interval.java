@@ -1,6 +1,7 @@
 package back;
 
 import back.exception.InvalidIntervalException;
+import back.exception.UnavailableCodeException;
 
 public class Interval extends Bounds {
     private boolean isLeftIncluded;
@@ -33,7 +34,7 @@ public class Interval extends Bounds {
         return Math.abs(getRightBound() - getLeftBound()) < EPS;
     }
 
-    public boolean isIntersect(Bounds that) {
+    public boolean isIntersect(Bounds that) throws UnavailableCodeException {
         try {
             return isIntersect(
                     new Interval(
@@ -42,9 +43,7 @@ public class Interval extends Bounds {
                     )
             );
         } catch (InvalidIntervalException e) {
-            System.err.println(e);
-            System.err.println("Unavailable code!");
-            return false;
+            throw new UnavailableCodeException();
         }
     }
 

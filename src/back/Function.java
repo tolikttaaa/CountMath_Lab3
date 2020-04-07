@@ -2,12 +2,13 @@ package back;
 
 import back.exception.NotAllowedScopeException;
 import back.exception.NotImplementedMethodException;
+import back.exception.UnavailableCodeException;
 
 public interface Function {
     double EPS = 1e-9d;
     double DOUBLE_MAX_VALUE = 1e30d;
 
-    default double getValue(double argument) throws NotAllowedScopeException {
+    default double getValue(double argument) throws NotAllowedScopeException, UnavailableCodeException {
         double res = get(argument);
 
         if (isCountableValue(res)) {
@@ -35,7 +36,7 @@ public interface Function {
         throw new NotAllowedScopeException();
     }
 
-    double get(double argument);
+    double get(double argument) throws UnavailableCodeException;
 
     default boolean isCountableValue(double value) {
         if (Double.isNaN(value)) {
@@ -49,10 +50,10 @@ public interface Function {
         return true;
     }
 
-    Interval[] getNotAllowedScope();
+    Interval[] getNotAllowedScope() throws UnavailableCodeException;
     Function getDerivative() throws NotImplementedMethodException;
 
-    default double getMaxValue(Bounds bounds) throws NotAllowedScopeException {
+    default double getMaxValue(Bounds bounds) throws NotAllowedScopeException, UnavailableCodeException {
         int countOfSections = Math.min((int) (Math.abs(bounds.getLength()) * 10000), 1_000_000);
 
         double maximum = 0d;

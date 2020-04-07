@@ -6,6 +6,12 @@ import java.util.ListIterator;
 
 public class LinearEquation implements Gauss<Double, LinearEquation> {
     private List<Double> equation = new ArrayList<>();
+
+    public LinearEquation(ArrayList<Double> multipliers, Double b) {
+        this.equation = new ArrayList<>(multipliers);
+        this.equation.add(b);
+    }
+
     public List<Double> getEquation() {
         return equation;
     }

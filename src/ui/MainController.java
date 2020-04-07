@@ -3,9 +3,8 @@ package ui;
 import back.Bounds;
 import back.Function;
 import back.Functions;
-import back.solution.NonlinearEquationSolutionType;
-import back.solution.NonlinearEquationSolver;
-import back.solution.SystemOfNonlinearEquationsSolutionType;
+import back.NonlinearEquations;
+import back.solution.*;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,11 +18,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
     private static final double EPS = 1e-9;
-    private static final NonlinearEquationSolver neSolver = new NonlinearEquationSolver();
 
     @FXML
     private Label helpPane;
@@ -46,6 +45,63 @@ public class MainController implements Initializable {
     @FXML
     private LineChart<Double, Double> chart;
     private Graph mathGraph;
+
+    @FXML
+    private ChoiceBox<NonlinearEquationSolutionType> neMethod;
+
+    @FXML
+    private ChoiceBox<Function> neFunction;
+
+    @FXML
+    private TextField neLeftBound;
+
+    private double getLeftBound() {
+        return Double.parseDouble(neLeftBound.getText());
+    }
+
+    @FXML
+    private TextField neRightBound;
+
+    private double getRightBound() {
+        return Double.parseDouble(neRightBound.getText());
+    }
+
+    @FXML
+    private TextField neAccuracy;
+
+    private double getNEAccuracy() {
+        return Double.parseDouble(neAccuracy.getText());
+    }
+
+    @FXML
+    private ChoiceBox<SystemOfNonlinearEquationsSolutionType> sneMethod;
+
+    @FXML
+    private ChoiceBox<NonlinearEquation> sneEquation1;
+
+    @FXML
+    private ChoiceBox<NonlinearEquation> sneEquation2;
+
+    @FXML
+    private TextField sneX1Start;
+
+    private double getX1Start() {
+        return Double.parseDouble(sneX1Start.getText());
+    }
+
+    @FXML
+    private TextField sneX2Start;
+
+    private double getX2Start() {
+        return Double.parseDouble(sneX2Start.getText());
+    }
+
+    @FXML
+    private TextField sneAccuracy;
+
+    private double getSNEAccuracy() {
+        return Double.parseDouble(sneAccuracy.getText());
+    }
 
     @FXML
     private void setVisibleHelpPane() {
@@ -89,54 +145,33 @@ public class MainController implements Initializable {
 
         sneMethod.setValue(SystemOfNonlinearEquationsSolutionType.NEWTON_METHOD);
 
+        sneEquation1.setValue(NonlinearEquations.EQUATION_1);
+        sneEquation2.setValue(NonlinearEquations.EQUATION_2);
+
+        sneX1Start.setText("0");
+        sneX2Start.setText("0");
+        sneAccuracy.setText("0.01");
+
         error.setText("");
         result.setText("");
-
-        //TODO: sne
 
         updateSNEChart();
     }
 
     @FXML
-    private ChoiceBox<NonlinearEquationSolutionType> neMethod;
-
-    @FXML
-    private ChoiceBox<Function> neFunction;
-
-    @FXML
-    private ChoiceBox<SystemOfNonlinearEquationsSolutionType> sneMethod;
-
-    @FXML
-    private ChoiceBox sneFunction;
-
-    @FXML
-    private TextField neLeftBound;
-
-    private double getLeftBound() {
-        return Double.parseDouble(neLeftBound.getText());
-    }
-
-    @FXML
-    private TextField neRightBound;
-
-    private double getRightBound() {
-        return Double.parseDouble(neRightBound.getText());
-    }
-
-    @FXML
-    private TextField neAccuracy;
-
-    @FXML
     private void neCalculate() {
         try {
-            result.setText(neSolver.solveNonlinearEquation(
-                    neFunction.getValue(),
-                    new Bounds(
-                            getLeftBound(),
-                            getRightBound()
-                    ),
-                    Double.parseDouble(neAccuracy.getText()), neMethod.getValue()
-            ).toString());
+            result.setText(
+                    NonlinearEquationSolver.solveNonlinearEquation(
+                            neFunction.getValue(),
+                            new Bounds(
+                                    getLeftBound(),
+                                    getRightBound()
+                            ),
+                            getNEAccuracy(),
+                            neMethod.getValue()
+                    ).toString()
+            );
         } catch (Exception e) {
             result.setText("");
             error.setText(e.getMessage());
@@ -145,7 +180,29 @@ public class MainController implements Initializable {
 
     @FXML
     private void sneCalculate() {
-        //TODO: sne
+        try {
+            ArrayList<NonlinearEquation> equations = new ArrayList<>();
+            equations.add(sneEquation1.getValue());
+            equations.add(sneEquation2.getValue());
+            SystemOfNonlinearEquations system = new SystemOfNonlinearEquations(equations);
+
+            ArrayList<Double> startValue = new ArrayList<>();
+            startValue.add(getX1Start());
+            startValue.add(getX2Start());
+
+            result.setText(
+                    SystemOfNonlinearEquationsSolver.solveSystemOfNonlinearEquations(
+                            system,
+                            startValue,
+                            getSNEAccuracy(),
+                            sneMethod.getValue()
+                    ).toString()
+            );
+        } catch (Exception e) {
+            result.setText("");
+            error.setText(e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -210,10 +267,6 @@ public class MainController implements Initializable {
                     updateNEChart();
                 });
 
-        neLeftBound.setText("-10.0");
-        neRightBound.setText("10.0");
-        neAccuracy.setText("0.01");
-
         neLeftBound.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("-?\\d{0,7}([.]\\d{0,4})?")) {
                 neLeftBound.setText(oldValue);
@@ -252,7 +305,7 @@ public class MainController implements Initializable {
             } else {
                 try {
                     if (Double.parseDouble(newValue) < 0.00001d) {
-                        neLeftBound.setText(oldValue);
+                        neAccuracy.setText(oldValue);
                     } else {
                         error.setText("");
                         result.setText("");
@@ -270,8 +323,94 @@ public class MainController implements Initializable {
                 SystemOfNonlinearEquationsSolutionType.ITERATIVE_METHOD
         );
         sneMethod.setItems(sneMethods);
+        sneMethod.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    error.setText("");
+                    result.setText("");
+                }
+        );
 
-        //TODO: sne
+        ObservableList<NonlinearEquation> sneEquations
+                = FXCollections.observableArrayList(
+//                NonlinearEquations.EQUATION_TEST_1,
+//                NonlinearEquations.EQUATION_TEST_2,
+                NonlinearEquations.EQUATION_1,
+                NonlinearEquations.EQUATION_2,
+                NonlinearEquations.EQUATION_3
+        );
+        sneEquation1.setItems(sneEquations);
+        sneEquation2.setItems(sneEquations);
+
+        sneEquation1.getSelectionModel()
+                .selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    if (newValue.equals(sneEquation2.getValue())) {
+                        sneEquation1.setValue(oldValue);
+
+                        error.setText("This equation is already used!!!");
+                    } else {
+                        sneEquation1.setValue(newValue);
+                        sneX1Start.setText("0");
+                        sneX2Start.setText("0");
+                        sneAccuracy.setText("0.01");
+
+                        error.setText("");
+                        result.setText("");
+
+                        updateSNEChart();
+                    }
+                });
+        sneEquation2.getSelectionModel()
+                .selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    if (newValue.equals(sneEquation1.getValue())) {
+                        sneEquation2.setValue(oldValue);
+
+                        error.setText("This equation is already used!!!");
+                    } else {
+                        sneEquation2.setValue(newValue);
+                        sneX1Start.setText("0");
+                        sneX2Start.setText("0");
+                        sneAccuracy.setText("0.01");
+
+                        error.setText("");
+                        result.setText("");
+
+                        updateSNEChart();
+                    }
+                });
+
+        sneX1Start.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("-?\\d{0,7}([.]\\d{0,4})?")) {
+                sneX1Start.setText(oldValue);
+            } else {
+                error.setText("");
+                result.setText("");
+            }
+        });
+        sneX2Start.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("-?\\d{0,7}([.]\\d{0,4})?")) {
+                sneX2Start.setText(oldValue);
+            } else {
+                error.setText("");
+                result.setText("");
+            }
+        });
+        sneAccuracy.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("-?\\d{0,3}([.]\\d{0,5})?")) {
+                sneAccuracy.setText(oldValue);
+            } else {
+                try {
+                    if (Double.parseDouble(newValue) < 0.00001d) {
+                        sneAccuracy.setText(oldValue);
+                    } else {
+                        error.setText("");
+                        result.setText("");
+                    }
+                } catch (NumberFormatException ignored) {
+                }
+            }
+        });
     }
 
     private void chartInit() {

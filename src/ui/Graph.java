@@ -2,6 +2,7 @@ package ui;
 
 import back.Function;
 import back.exception.NotAllowedScopeException;
+import back.exception.UnavailableCodeException;
 import javafx.scene.chart.XYChart;
 
 public class Graph {
@@ -11,7 +12,8 @@ public class Graph {
         this.graph = graph;
     }
 
-    public void plotLine(final Function function, final double lowerBound, final double upperBound) throws NotAllowedScopeException {
+    public void plotLine(final Function function, final double lowerBound, final double upperBound)
+            throws NotAllowedScopeException, UnavailableCodeException {
         final XYChart.Series<Double, Double> series = new XYChart.Series<>();
         for (double x = lowerBound; x <= upperBound; x += (upperBound - lowerBound) / 1000d) {
             plotPoint(x, function.getValue(x), series);
