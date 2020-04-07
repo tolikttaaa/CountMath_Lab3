@@ -170,6 +170,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void updateSNEChart() {
+        mathGraph.clear();
         //TODO: sne
     }
 

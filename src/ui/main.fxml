@@ -19,11 +19,16 @@
          <children>
             <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="775.0" prefWidth="425.0">
                <children>
+                  <Label fx:id="helpPane" alignment="TOP_LEFT" cacheShape="false" centerShape="false" scaleShape="false" text="The purpose of this application is to solve selective nonlinear equations and systems of nonlinear equations by various methods.&#10;&#10;Solving nonlinear equation:&#10;* You can choose function from the list:&#10;   1) x^3 - x + 4 = 0&#10;   2) x^2 - 4 = 0&#10;   3) x/2 - 3 = 0&#10;* You can choose method from the list:&#10;   1) Bisection method (Done)&#10;   2) Method of chords&#10;   3) Newton's method&#10;   4) Iterative method (Done)&#10;* Also you need to set the bounds of the solution and needed accuracy.&#10;&#10;Solving system of nonlinear equations:&#10;Not implemeted yet.&#10;Implemented by Anatoliy Anischenko&#10;" textAlignment="JUSTIFY" wrapText="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
                   <VBox alignment="TOP_CENTER" spacing="50.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
                      <children>
                         <AnchorPane>
                            <children>
-                              <VBox fx:id="neInputPane" alignment="TOP_CENTER" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <VBox fx:id="neInputPane" alignment="TOP_CENTER" spacing="30.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <HBox alignment="TOP_CENTER" spacing="30.0">
                                        <children>
@@ -125,16 +130,11 @@
                                     </HBox>
                                  </children>
                               </VBox>
-                              <Label fx:id="helpPane" alignment="TOP_LEFT" cacheShape="false" centerShape="false" scaleShape="false" text="The purpose of this application is to solve selective nonlinear equations and systems of nonlinear equations by various ways.&#10;Implemented by Anatoliy Anischenko&#10;" textAlignment="JUSTIFY" visible="false" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </Label>
                            </children>
                         </AnchorPane>
                         <AnchorPane>
                            <children>
-                              <Label fx:id="error" alignment="TOP_LEFT" maxHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" text="Error&#10;Error&#10;Error&#10;" textFill="RED" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <Label fx:id="error" alignment="TOP_LEFT" maxHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" text="Error&#10;Error&#10;Error&#10;" textFill="RED" visible="false" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <font>
                                     <Font name="Consolas Bold" size="12.0" />
                                  </font>
@@ -143,7 +143,7 @@
                         </AnchorPane>
                         <AnchorPane>
                            <children>
-                              <Label fx:id="result" alignment="TOP_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="300.0" text="Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <Label fx:id="result" alignment="TOP_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="300.0" text="Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result&#10;Result" visible="false" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <font>
                                     <Font name="Consolas" size="12.0" />
                                  </font></Label>
