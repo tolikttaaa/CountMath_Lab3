@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 public class LinearEquation implements Gauss<Double, LinearEquation> {
-    private List<Double> equation = new ArrayList<Double>();
+    private List<Double> equation = new ArrayList<>();
     public List<Double> getEquation() {
         return equation;
     }

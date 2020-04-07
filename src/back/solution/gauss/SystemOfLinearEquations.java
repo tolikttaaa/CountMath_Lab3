@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SystemOfLinearEquations<N extends Number, T extends Gauss<N, T>> {
-    private List<T> list = new ArrayList<T>();
+    private List<T> list = new ArrayList<>();
 
     public T get(int index){
         return list.get(index);
