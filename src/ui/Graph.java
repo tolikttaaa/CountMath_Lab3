@@ -32,7 +32,6 @@ public class Graph {
     public void plotLine(final NonlinearEquation equation)
             throws UnavailableCodeException, NotImplementedMethodException {
         if (equation.equals(NonlinearEquations.EQUATION_2)) {
-            System.err.println("LOL");
             final XYChart.Series<Double, Double> series2 = new XYChart.Series<>();
             final XYChart.Series<Double, Double> series3 = new XYChart.Series<>();
 

@@ -203,7 +203,6 @@ public class MainController implements Initializable {
         } catch (Exception e) {
             result.setText("");
             error.setText(e.getMessage());
-            e.printStackTrace();
         }
     }
 
