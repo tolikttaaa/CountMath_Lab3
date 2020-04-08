@@ -1,11 +1,17 @@
 package back;
 
+import back.exception.NotImplementedMethodException;
 import back.solution.DerivativeNonlinearEquation;
 import back.solution.NonlinearEquation;
 
 import java.util.ArrayList;
 
 public class NonlinearEquations {
+    private final static int COUNT_OF_STEPS = 1_000;
+    private final static double EPS = 1e-9d;
+    private final static double LEFT_BOUND = -5d;
+    private final static double RIGHT_BOUND = 5d;
+
     public static final NonlinearEquation EQUATION_1 = new NonlinearEquation() {
         @Override
         public double getValue(ArrayList<Double> arguments) {
@@ -32,8 +38,13 @@ public class NonlinearEquations {
 
         @Override
         public ArrayList<Pair<Double, Double>> getPlotData() {
-            //TODO
-            return null;
+            ArrayList<Pair<Double, Double>> res = new ArrayList<>();
+
+            for (double x = LEFT_BOUND; x <= RIGHT_BOUND + EPS; x += (RIGHT_BOUND - LEFT_BOUND) / COUNT_OF_STEPS) {
+                res.add(new Pair<>(x, Math.exp(x)));
+            }
+
+            return res;
         }
 
         @Override
@@ -68,8 +79,17 @@ public class NonlinearEquations {
 
         @Override
         public ArrayList<Pair<Double, Double>> getPlotData() {
-            //TODO
-            return null;
+            ArrayList<Pair<Double, Double>> res = new ArrayList<>();
+
+            for (double x = LEFT_BOUND; x <= RIGHT_BOUND + EPS; x += (RIGHT_BOUND - LEFT_BOUND) / COUNT_OF_STEPS) {
+                res.add(new Pair<>(x, Math.sqrt(1 - x * x /  16)));
+            }
+
+            for (double x = RIGHT_BOUND; x >= LEFT_BOUND - EPS; x -= (RIGHT_BOUND - LEFT_BOUND) / COUNT_OF_STEPS) {
+                res.add(new Pair<>(x, -Math.sqrt(1 - x * x /  16)));
+            }
+
+            return res;
         }
 
         @Override
@@ -104,8 +124,13 @@ public class NonlinearEquations {
 
         @Override
         public ArrayList<Pair<Double, Double>> getPlotData() {
-            //TODO
-            return null;
+            ArrayList<Pair<Double, Double>> res = new ArrayList<>();
+
+            for (double x = LEFT_BOUND; x <= RIGHT_BOUND + EPS; x += (RIGHT_BOUND - LEFT_BOUND) / COUNT_OF_STEPS) {
+                res.add(new Pair<>(x, Math.pow(x, 2)));
+            }
+
+            return res;
         }
 
         @Override
@@ -113,8 +138,6 @@ public class NonlinearEquations {
             return "x2 - x1^2 = 0";
         }
     };
-
-    //FIXME: remove
 
     public static final NonlinearEquation EQUATION_TEST_1 = new NonlinearEquation() {
         @Override
@@ -141,9 +164,8 @@ public class NonlinearEquations {
         }
 
         @Override
-        public ArrayList<Pair<Double, Double>> getPlotData() {
-            //TODO
-            return null;
+        public ArrayList<Pair<Double, Double>> getPlotData() throws NotImplementedMethodException {
+            throw new NotImplementedMethodException();
         }
 
         @Override
@@ -177,9 +199,8 @@ public class NonlinearEquations {
         }
 
         @Override
-        public ArrayList<Pair<Double, Double>> getPlotData() {
-            //TODO
-            return null;
+        public ArrayList<Pair<Double, Double>> getPlotData() throws NotImplementedMethodException {
+            throw new NotImplementedMethodException();
         }
 
         @Override

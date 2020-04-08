@@ -41,6 +41,8 @@ public class MainController implements Initializable {
 
     @FXML
     private NumberAxis xAxis;
+    @FXML
+    private NumberAxis yAxis;
 
     @FXML
     private LineChart<Double, Double> chart;
@@ -146,7 +148,7 @@ public class MainController implements Initializable {
         sneMethod.setValue(SystemOfNonlinearEquationsSolutionType.NEWTON_METHOD);
 
         sneEquation1.setValue(NonlinearEquations.EQUATION_1);
-        sneEquation2.setValue(NonlinearEquations.EQUATION_2);
+        sneEquation2.setValue(NonlinearEquations.EQUATION_3);
 
         sneX1Start.setText("0");
         sneX2Start.setText("0");
@@ -215,6 +217,7 @@ public class MainController implements Initializable {
                     getRightBound()
             );
             xAxis.setAutoRanging(false);
+            yAxis.setAutoRanging(true);
             double step = (getRightBound() - getLeftBound()) / 10;
             xAxis.setLowerBound(getLeftBound() - step);
             xAxis.setUpperBound(getRightBound() + step);
@@ -227,8 +230,34 @@ public class MainController implements Initializable {
 
     @FXML
     private void updateSNEChart() {
-        mathGraph.clear();
-        //TODO: sne
+        try {
+            mathGraph.clear();
+            if (sneEquation1.getValue().equals(NonlinearEquations.EQUATION_2)) {
+                mathGraph.plotLine(
+                        sneEquation2.getValue()
+                );
+                mathGraph.plotLine(
+                        sneEquation1.getValue()
+                );
+            } else {
+                mathGraph.plotLine(
+                        sneEquation1.getValue()
+                );
+                mathGraph.plotLine(
+                        sneEquation2.getValue()
+                );
+            }
+            xAxis.setAutoRanging(false);
+            xAxis.setUpperBound(5);
+            xAxis.setLowerBound(-5);
+            xAxis.setTickUnit(1);
+            yAxis.setAutoRanging(false);
+            yAxis.setUpperBound(8);
+            yAxis.setLowerBound(-2);
+            yAxis.setTickUnit(1);
+        } catch (Exception e) {
+            error.setText(e.getMessage());
+        }
     }
 
     private void neInit() {
