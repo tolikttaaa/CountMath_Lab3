@@ -11,7 +11,7 @@ import back.solution.gauss.SystemOfLinearEquationsSolver;
 import java.util.ArrayList;
 
 public class SystemOfNonlinearEquationsSolver {
-    static private final long N_MAX_VALUE = 10_000L;
+    static private final long N_MAX_VALUE = 10_000_000L;
 
     static public SystemOfNonlinearEquationsSolutionResult solveSystemOfNonlinearEquations(
             SystemOfNonlinearEquations system,
@@ -66,7 +66,7 @@ public class SystemOfNonlinearEquationsSolver {
             }
         }
 
-        throw new NoSolutionException("count of iterations more than 10_000");
+        throw new NoSolutionException("count of iterations more than 10_000_000");
     }
 
     static private double getMeasuredError(ArrayList<Double> x, ArrayList<Double> prev_x) {
