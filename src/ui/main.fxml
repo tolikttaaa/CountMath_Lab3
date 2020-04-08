@@ -19,7 +19,7 @@
          <children>
             <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="775.0" prefWidth="425.0">
                <children>
-                  <Label fx:id="helpPane" alignment="TOP_LEFT" cacheShape="false" centerShape="false" scaleShape="false" text="The purpose of this application is to solve selective nonlinear equations and systems of nonlinear equations by various methods.&#10;&#10;Solving nonlinear equation:&#10;* You can choose function from the list:&#10;   1) x^3 - x + 4 = 0&#10;   2) x^2 - 4 = 0&#10;   3) x/2 - 3 = 0&#10;* You can choose method from the list:&#10;   1) Bisection method (Done)&#10;   2) Method of chords&#10;   3) Newton's method&#10;   4) Iterative method (Done)&#10;* Also you need to set the bounds of the solution and needed accuracy.&#10;&#10;Solving system of nonlinear equations:&#10;Not implemeted yet.&#10;&#10;Implemented by Anatoliy Anischenko&#10;" textAlignment="JUSTIFY" visible="false" wrapText="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+                  <Label fx:id="helpPane" alignment="TOP_LEFT" cacheShape="false" centerShape="false" scaleShape="false" text="The purpose of this application is to solve selective nonlinear equations and systems of nonlinear equations by various methods.&#10;&#10;Solving nonlinear equation:&#10;* You can choose function from the list:&#10;   1) x^3 - x + 4 = 0&#10;   2) x^2 - 4 = 0&#10;   3) x/2 - 3 = 0&#10;* You can choose method from the list:&#10;   1) Bisection method (Done)&#10;   2) Method of chords&#10;   3) Newton's method&#10;   4) Iterative method (Done)&#10;* Also you need to set the bounds of the solution and required accuracy.&#10;&#10;Solving system of nonlinear equations:&#10;* You can choose two equations from the list:&#10;   1) x2 - e^x1 = 0&#10;   2) x1^2 + 16*x2^2 - 16 = 0&#10;   3) x2 - x1^2 = 0&#10;* You can choose method from the list:&#10;   1) Newton's method (Done)&#10;   2) Iterative method&#10;* Also you can set the start value for arguments and need to set required accuracy.&#10;&#10;Implemented by Anatoliy Anischenko&#10;" textAlignment="JUSTIFY" visible="false" wrapText="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -169,7 +169,7 @@
                       <NumberAxis side="BOTTOM" fx:id="xAxis" />
                     </xAxis>
                     <yAxis>
-                      <NumberAxis side="LEFT" fx:id="yAxis" />
+                      <NumberAxis fx:id="yAxis" side="LEFT" />
                     </yAxis>
                   </LineChart>
                </children>
