@@ -63,4 +63,18 @@ public class Graph {
     public void clear() {
         graph.getData().clear();
     }
+
+    public void plotDot(final Pair<Double, Double> dot) {
+        final XYChart.Series<Double, Double> series1 = new XYChart.Series<>();
+        plotPoint(dot.first, dot.second, series1);
+        graph.getData().add(series1);
+
+        final XYChart.Series<Double, Double> series2 = new XYChart.Series<>();
+        plotPoint(dot.first, dot.second, series2);
+        graph.getData().add(series2);
+
+        final XYChart.Series<Double, Double> series3 = new XYChart.Series<>();
+        plotPoint(dot.first, dot.second, series3);
+        graph.getData().add(series3);
+    }
 }

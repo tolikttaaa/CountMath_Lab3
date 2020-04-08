@@ -1,5 +1,7 @@
 package back.solution;
 
+import back.Pair;
+
 public class NonlinearEquationSolutionResult {
     private double argument;
     private double value;
@@ -9,6 +11,10 @@ public class NonlinearEquationSolutionResult {
         this.argument = argument;
         this.value = value;
         this.iterationsCount = iterationsCount;
+    }
+
+    public Pair<Double, Double> getResult() {
+        return new Pair<>(argument, value);
     }
 
     @Override

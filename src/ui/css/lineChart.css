@@ -1,11 +1,10 @@
-.chart-symbol {
-    -fx-background-radius: 2px ;
-    -fx-padding: 2px ;
+.default-color0 {
+    -fx-stroke: #4488FF ;
 }
-
-.default-color1 {
+.default-color1, .default-color2 {
     -fx-stroke: #00BB00 ;
 }
-.default-color2 {
-    -fx-stroke: #00BB00 ;
+.default-color3, .default-color4, .default-color5 {
+    -fx-stroke: #FF4444 ;
+    -fx-stroke-width: 8 ;
 }

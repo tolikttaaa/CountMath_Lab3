@@ -163,17 +163,20 @@ public class MainController implements Initializable {
     @FXML
     private void neCalculate() {
         try {
-            result.setText(
-                    NonlinearEquationSolver.solveNonlinearEquation(
-                            neFunction.getValue(),
-                            new Bounds(
-                                    getLeftBound(),
-                                    getRightBound()
-                            ),
-                            getNEAccuracy(),
-                            neMethod.getValue()
-                    ).toString()
+            NonlinearEquationSolutionResult res = NonlinearEquationSolver.solveNonlinearEquation(
+                    neFunction.getValue(),
+                    new Bounds(
+                            getLeftBound(),
+                            getRightBound()
+                    ),
+                    getNEAccuracy(),
+                    neMethod.getValue()
             );
+
+            updateNEChart();
+            mathGraph.plotDot(res.getResult());
+
+            result.setText(res.toString());
         } catch (Exception e) {
             result.setText("");
             error.setText(e.getMessage());
@@ -192,14 +195,18 @@ public class MainController implements Initializable {
             startValue.add(getX1Start());
             startValue.add(getX2Start());
 
-            result.setText(
-                    SystemOfNonlinearEquationsSolver.solveSystemOfNonlinearEquations(
-                            system,
-                            startValue,
-                            getSNEAccuracy(),
-                            sneMethod.getValue()
-                    ).toString()
+            SystemOfNonlinearEquationsSolutionResult res
+                    = SystemOfNonlinearEquationsSolver.solveSystemOfNonlinearEquations(
+                    system,
+                    startValue,
+                    getSNEAccuracy(),
+                    sneMethod.getValue()
             );
+
+            updateSNEChart();
+            mathGraph.plotDot(res.get2Result());
+
+            result.setText(res.toString());
         } catch (Exception e) {
             result.setText("");
             error.setText(e.getMessage());

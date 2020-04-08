@@ -1,5 +1,7 @@
 package back.solution;
 
+import back.Pair;
+
 import java.util.ArrayList;
 
 public class SystemOfNonlinearEquationsSolutionResult {
@@ -9,6 +11,10 @@ public class SystemOfNonlinearEquationsSolutionResult {
     public SystemOfNonlinearEquationsSolutionResult(ArrayList<Double> arguments, long iterationsCount) {
         this.arguments = arguments;
         this.iterationsCount = iterationsCount;
+    }
+
+    public Pair<Double, Double> get2Result() {
+        return new Pair<>(arguments.get(0), arguments.get(1));
     }
 
     @Override
