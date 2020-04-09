@@ -124,6 +124,8 @@ public class NonlinearEquationSolver {
             if (Math.abs(x - prev_x) < accuracy || Math.abs(function.getValue(x)) < accuracy) {
                 return new NonlinearEquationSolutionResult(x, function.getValue(x), i);
             }
+
+            prev_x = x;
         }
 
         prev_x = bounds.getRightBound();
@@ -134,6 +136,8 @@ public class NonlinearEquationSolver {
             if (Math.abs(x - prev_x) < accuracy || Math.abs(function.getValue(x)) < accuracy) {
                 return new NonlinearEquationSolutionResult(x, function.getValue(x), i);
             }
+
+            prev_x = x;
         }
 
         throw new NoSolutionException("count of iterations more than 10_000_000");
